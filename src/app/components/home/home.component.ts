@@ -49,8 +49,7 @@ getCurrentLocation(){
         this.cityName=city
         this.weatherDayOne=res.daily.data[0]
          this.Weather=res.hourly.data
-         this.Fourdays=res.daily.data.slice(1,5)
-         console.log(this.weatherDayOne)
+         this.Fourdays=res.daily.data.slice(1,6)
          this.error=''
 
     },
