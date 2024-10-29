@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit{
   }
 
   ngOnInit(): void {
-          this.getCurrentLocation();
+           this.getCurrentLocation();
     } 
 
  // Get  Current Location from user automatically 
@@ -34,6 +34,7 @@ getCurrentLocation(){
     navigator.geolocation.getCurrentPosition((position) => {
       this.userLatitude = position.coords.latitude;
       this.userLongitude = position.coords.longitude;
+      console.log(this.userLatitude, this.userLongitude)
       // Now call the function to get the city name from latitude and longitude
        this.getCityName(this.userLatitude, this.userLongitude);
     });
@@ -45,14 +46,16 @@ getCurrentLocation(){
   getWeather(city:any){
     return this._DataService.GetWeather(city).subscribe({
       next:(res)=>{
+        this.cityName=city
         this.weatherDayOne=res.daily.data[0]
          this.Weather=res.hourly.data
          this.Fourdays=res.daily.data.slice(1,5)
-         console.log(this.Fourdays.slice(1,5))
+         console.log(this.weatherDayOne)
+         this.error=''
 
     },
       error:(err)=>{
-        console.log(err)
+        this.weatherDayOne=''
         this.error="Invalid City Name , Please enter a valid one"
       }
     })
@@ -88,9 +91,7 @@ getCurrentLocation(){
 // Get city name and send it to getWeather function to get full information about the weather
   getCityName(lat: number, lon: number) {
     return this._DataService.getCityName(lat,lon).subscribe((data)=>{
-      console.log(data)
-      this.cityName=data.results[0].components.city
-      this.getWeather(data.results[0].components.city)
+      this.getWeather(data.results[0].components.state)
     })   
   }
 

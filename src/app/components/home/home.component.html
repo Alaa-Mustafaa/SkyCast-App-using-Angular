@@ -42,10 +42,9 @@
            <!-- ========== End Error Section ========== -->
            
         <div class="my-5 container " *ngIf="weatherDayOne">
+          <p class="text-primary d-block">{{weatherDayOne.day | date:'fullDate'}}</p>
           <div class="d-flex  align-items-center">
-            <h2 class="me-3" *ngIf="cityName && !searchValue">{{cityName}}</h2>
-            <h2 class="me-3" *ngIf="searchValue && !cityName">{{searchValue}}</h2>
-  
+            <h2 class="me-3 text-uppercase" *ngIf="cityName">{{cityName}}</h2>  
             <img [src]="path+weatherDayOne.icon+'.png'"/>
   
           </div>
@@ -151,11 +150,11 @@
         </div>
 
         <!-- The next 4 Days -->
-         <section class="my-5" *ngIf="weatherDayOne">
-          <div class="row gy-4">
+         <section class="my-5 container" *ngIf="weatherDayOne">
+          <div class="row gy-4 bg-body-secondary p-4 rounded-4 ">
             <h4 class="mb-5 pt-3 text-uppercase text-muted">the next 4 days</h4>
 
-            <div class="col-md-3 col-sm-6 bg-white shadow-sm rounded-4 p-4 d-flex justify-content-center" *ngFor="let slide of Fourdays">
+            <div class="col-md-3 col-sm-6  p-4 d-flex justify-content-center" *ngFor="let slide of Fourdays">
             <div class="text-center">
               <p class="fs-4 text-primary">{{slide.day | date:'fullDate'}}</p>
               <img [src]="path+slide.icon+'.png'" class="w-50"/>
