@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+      <!-- ========== Start Main Section ========== -->
+      <section class="pt-5" >
+        <div class="rounded-4 shadow-lg container p-5" id="card">
+          <!-- ========== Start Navigation bar Section ========== -->
+          <nav class="navbar navbar-expand-lg">
+            <div class="container">
+              <a class="navbar-brand" href="#"><img src="assets/logo.png" id="logo" class="me-3"/>SkyCast</a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        
+                </ul>
+                <!--Search for cities -->
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search for cities" name="searchValue" [(ngModel)]="searchValue">
+                    <button class="btn btn-outline-primary" type="submit" (click)="search()" >Search</button> 
+                  </form>
+                  <!--Search for cities -->
+              </div>
+            </div>
+          </nav>
+          <!-- ========== End Navigation bar Section ========== -->
+  
+           <!-- ========== Start Error Section ========== -->
+            <section  class="my-5 bg-body-secondary rounded-4 text-center p-4" *ngIf="error.length>0"> 
+              <p class="fs-3 text-danger">{{error}} </p>
+            </section>
+           
+           <!-- ========== End Error Section ========== -->
+           
+        <div class="my-5 container " *ngIf="weatherDayOne">
+          <div class="d-flex  align-items-center">
+            <h2 class="me-3" *ngIf="cityName && !searchValue">{{cityName}}</h2>
+            <h2 class="me-3" *ngIf="searchValue && !cityName">{{searchValue}}</h2>
+  
+            <img [src]="path+weatherDayOne.icon+'.png'"/>
+  
+          </div>
+        <div class="d-flex fs-2 mt-4">
+          <p>{{weatherDayOne.all_day.temperature_max}} <sup>°</sup></p>
+        <p class="text-muted ms-5">{{weatherDayOne.all_day.temperature_min}} <sup>°</sup></p>
+        </div>
+  
+        <!-- ========== Start Today's Forecast Section ========== -->
+         <section class="mt-5 bg-body-secondary p-4 rounded-4">
+          <h4 class="mb-5 pt-3 text-uppercase text-muted">Today's Forecast</h4>
+  
+          <owl-carousel-o [options]="customOptions" >
+  
+            <ng-container *ngFor="let slide of Weather" >
+              <ng-template carouselSlide  >
+                <div class="text-center d-flex justify-content-center align-items-center bg-white rounded-4" id="carouselSlidee">
+                 <div>
+                  <p class="pt-3">{{slide.date | date:'shortTime'}}</p>
+                  <img [src]="path+slide.icon+'.png'" class="w-100">
+                  <p class="pt-3">{{slide.temperature}} <sup>°</sup></p>
+                 </div>
+                </div>
+  
+              </ng-template>
+            </ng-container>
+        
+          </owl-carousel-o>
+  
+         </section>
+        
+        <!-- ========== End Today's Forecast Section ========== -->
+  
+        <!-- ========== Start Weather Conditions Section ========== -->
+         <section class="my-5 bg-body-secondary p-4 rounded-4 container">
+          <h4 class="text-muted text-uppercase py-3">Weather conditions</h4>
+          <p>Summary : {{weatherDayOne.summary}} ( {{weatherDayOne.weather}} )</p>
+         <div class="container">
+          <div class="row gy-4 pt-5 justify-content-center">
+  
+            <div class="col-md-3  col-sm-12 bg-white rounded-4 p-4">
+              <div class="d-flex justify-content-between align-items-center text-muted pb-3">
+                <h5>Wind Speed</h5>
+                <i class="fa-solid fa-wind fs-5"></i> 
+              </div>
+              <p>{{weatherDayOne.all_day.wind.speed}} km/h</p>
+            </div>
+  
+  
+            <div class="col-md-3 mx-4 col-sm-12 bg-white rounded-4 p-4">
+              <div class="d-flex justify-content-between align-items-center text-muted pb-3">
+                <h5>Wind Direction & Angle </h5>
+                <i class="fa-regular fa-compass fs-5 ms-4"></i> 
+              </div>
+              <p>{{ weatherDayOne.all_day.wind.dir}} / {{weatherDayOne.all_day.wind.angle }} <sup>°</sup></p>
+            </div>
+  
+  
+  
+            <div class="col-md-3  col-sm-12 bg-white rounded-4 p-4">
+              <div class="d-flex justify-content-between align-items-center text-muted pb-3">
+                <h5>Max Temperature</h5>
+                <i class="fa-solid fa-temperature-full fs-5"></i>
+              </div>
+              <p>{{ weatherDayOne.all_day.temperature_max}} <sup>°</sup></p>
+            </div>
+  
+  
+  
+            <div class="col-md-3  col-sm-12 bg-white rounded-4 p-4">
+              <div class="d-flex justify-content-between align-items-center text-muted pb-3">
+                <h5>Temperature</h5>
+                <i class="fa-solid fa-temperature-half fs-5"></i> 
+              </div>
+              <p>{{ weatherDayOne.all_day.temperature}} <sup>°</sup></p>
+            </div>
+  
+  
+            <div class="col-md-3 mx-4 col-sm-12 bg-white rounded-4 p-4">
+              <div class="d-flex justify-content-between align-items-center text-muted pb-3">
+                <h5>Min Temperature</h5>
+                <i class="fa-solid fa-temperature-quarter fs-5"></i> 
+              </div>
+              <p>{{weatherDayOne.all_day.temperature_min}} <sup>°</sup></p>
+            </div>
+  
+  
+  
+            <div class="col-md-3  col-sm-12 bg-white rounded-4 p-4">
+              <div class="d-flex justify-content-between align-items-center text-muted pb-3">
+                <h5>Percentage of sky covered by clouds</h5>
+                <i class="fa-solid fa-cloud fs-5"></i>
+              </div>
+              <p>{{weatherDayOne.all_day.cloud_cover.total}} % </p>
+            </div>
+  
+  
+          </div>
+         </div>
+         </section>
+        
+        <!-- ========== End Weather Conditions Section ========== -->
+        </div>
+
+        <!-- The next 4 Days -->
+         <section class="my-5" *ngIf="weatherDayOne">
+          <div class="row gy-4">
+            <h4 class="mb-5 pt-3 text-uppercase text-muted">the next 4 days</h4>
+
+            <div class="col-md-3 col-sm-6 bg-white shadow-sm rounded-4 p-4 d-flex justify-content-center" *ngFor="let slide of Fourdays">
+            <div class="text-center">
+              <p class="fs-4 text-primary">{{slide.day | date:'fullDate'}}</p>
+              <img [src]="path+slide.icon+'.png'" class="w-50"/>
+              <p class="fs-4 pt-4">{{ slide.all_day.temperature_max}} <sup>°</sup> Max</p>
+              <p class="text-muted fs-5 ">{{ slide.all_day.temperature_min}} <sup>°</sup> Min</p>
+              <p class="text-primary">{{slide.weather}}</p>
+              <div class="d-flex text-muted"> 
+                <div>
+                  <i class="fa-solid fa-wind fs-5 pe-2"></i> 
+                  <span>{{slide.all_day.wind.speed}} km/h</span>
+                </div>
+                <div class="mx-3">
+                  <i class="fa-regular fa-compass fs-5 pe-2"></i> 
+                  <span>{{ slide.all_day.wind.dir}} / {{slide.all_day.wind.angle }} <sup>°</sup></span>
+                </div>
+                <div>
+                  <i class="fa-solid fa-cloud fs-5 pe-2"></i>                  
+                  <span>{{slide.all_day.cloud_cover.total}} % </span>
+                </div>
+
+              </div>
+            </div>
+
+
+
+            </div>
+          </div>
+         </section>
+        </div>
+      </section>
+      <!-- ========== End Main Section ========== -->
+        
+        <script src="" async defer></script>
+    </body>
+</html>
