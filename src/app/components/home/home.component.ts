@@ -34,7 +34,6 @@ getCurrentLocation(){
     navigator.geolocation.getCurrentPosition((position) => {
       this.userLatitude = position.coords.latitude;
       this.userLongitude = position.coords.longitude;
-      console.log(this.userLatitude, this.userLongitude)
       // Now call the function to get the city name from latitude and longitude
        this.getCityName(this.userLatitude, this.userLongitude);
     });
